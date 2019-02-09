@@ -1,0 +1,28 @@
+<div class="row">
+          {% for product in products %}
+            <div class="col-lg-4 col-md-6 mb-4">
+              <div class="card h-100">
+                <a href="{{ product.get_absolute_url }}"><img src="{% if product.image %} {{ product.image.url }}{% endif %}" class="card-img-top" alt="Responsive image"></a>
+                <div class="card-body">
+                  <h4 class="card-title">
+                    <a href="{{ product.get_absolute_url }}">{{ product.name }}</a>
+                  </h4>
+                  <h5>INR {{ product.price }}</h5>
+                  {% if product.stock %}
+                  <a class="btn">In Stock</a>
+                  {% else %}
+                  <a class="btn">Out of Stock</a>
+                  {% endif %}
+                  <a class="btn" href="{{ product.get_absolute_url }}">Details</a>
+                </div>
+                <div class="card-footer">
+                <form action="{% url "cart:cart_add" product.id %}" method="post">
+                                {% csrf_token %}
+                                {{ cart_product_form }}
+                                <input type="submit" value="add to cart" class="btn btn-primary">
+                            </form>
+                </div>
+              </div>
+            </div>
+            {% endfor %} 
+      </div><!-- /.row -->
